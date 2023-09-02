@@ -1,12 +1,21 @@
 import { useForm } from "react-hook-form";
 import Modal from "../ui/Modal";
+import { useDispatch } from "react-redux";
+import { addTask } from "../../redux/features/tasks/tasksSlice";
 
 
 const AddTaskModal = ({ isOpen, setIsOpen }) => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
+    const dispatch = useDispatch();
+
+    const onCancel = () => {
+        reset();
+        setIsOpen(false);
+    }
 
     const onSubmit = data => {
-        console.log(data);
+        dispatch(addTask(data));
+        onCancel();
     }
 
     return (
@@ -26,7 +35,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
                 </div>
                 <div className="flex flex-col mb-5">
                     <label className="mb-2" htmlFor="assignTo">Assign to</label>
-                    <select name="assignTo" id="assignTo" className="w-full rounded-md" {...register("assignTo")}>
+                    <select name="assignedTo" id="assignedTo" className="w-full rounded-md" {...register("assignedTo")}>
                         <option value="Mir Hussain">Mir Hussain</option>
                         <option value="Mezba Abedin">Mezba Abedin</option>
                         <option value="Mizanur Rahman">Mizanur Rahman</option>
